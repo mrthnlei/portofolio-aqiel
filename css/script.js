@@ -760,57 +760,23 @@ function setupIntroAnimation() {
 
     if (!introOverlay || !typingText) return;
 
-    // Show intro overlay immediately and expose to assistive tech while visible
+    // Show intro overlay immediately
     introOverlay.style.display = 'flex';
-    introOverlay.setAttribute('aria-hidden', 'false');
 
     // Set the full text immediately for better visibility
     const welcomeText = 'Welcome to my Portfolio';
     typingText.textContent = welcomeText;
 
-    // Add fade-in animation class if used in CSS
+    // Add fade-in animation class
     typingText.classList.add('fade-in-full');
 
-    // Respect reduced-motion preference
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    // Short default display time so background content is visible quickly.
-    // Use 200ms when reduced-motion is preferred, otherwise 1200ms.
-    const displayTime = prefersReduced ? 200 : 1200;
-
-    let autoHideTimer = null;
-
-    const hideOverlay = () => {
-        if (introOverlay.classList.contains('hide')) return;
+    // Hide overlay after longer display time for full visibility
+    setTimeout(() => {
         introOverlay.classList.add('hide');
-        introOverlay.setAttribute('aria-hidden', 'true');
-
-        // after CSS fade-out completes, remove display so it no longer blocks layout/interaction
         setTimeout(() => {
-            try {
-                introOverlay.style.display = 'none';
-            } catch (e) { /* ignore */ }
-        }, 1600); // matches CSS transition 1.5s + small slack
-
-        // cleanup event listeners if still attached
-        document.removeEventListener('keydown', onUserInteraction);
-        document.removeEventListener('click', onUserInteraction);
-    };
-
-    const onUserInteraction = () => {
-        if (autoHideTimer) {
-            clearTimeout(autoHideTimer);
-            autoHideTimer = null;
-        }
-        hideOverlay();
-    };
-
-    // Auto hide after short delay
-    autoHideTimer = setTimeout(hideOverlay, displayTime);
-
-    // Allow immediate dismissal by user interaction (click / any key)
-    document.addEventListener('click', onUserInteraction, { once: true, passive: true });
-    document.addEventListener('keydown', onUserInteraction, { once: true, passive: true });
+            introOverlay.style.display = 'none';
+        }, 1500); // Smooth fade out
+    }, 5000); // Show for 5 seconds to ensure full visibility
 }
 
 // ID Card Swing Animation
@@ -838,4 +804,3 @@ function setupIdCardSwing() {
         }, 600); // Match the animation duration
     });
 }
-
