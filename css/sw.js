@@ -1,4 +1,4 @@
-const CACHE_NAME = 'maula-portfolio-v1.0.0';
+const CACHE_NAME = 'maula-portofolio-v1.0.0';
 const urlsToCache = [
   '/',
   '/index.html',
