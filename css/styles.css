@@ -2038,11 +2038,14 @@ body.dark-mode .theme-toggle:hover {
     align-items: center;
     justify-content: center;
     opacity: 1;
-    transition: opacity 1.5s ease-out;
+    transition: opacity 1.5s ease-out, visibility 0s linear 1.5s;
+    visibility: visible;
 }
 
 .intro-overlay.hide {
     opacity: 0;
+    visibility: hidden;        /* become non-visible after opacity transition completes */
+    pointer-events: none;      /* allow interactions with underlying content */
 }
 
 .intro-content {
